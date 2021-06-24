@@ -2,7 +2,7 @@ import { Action } from "../types";
 import { UserState } from "./types";
 
 export const initialState: UserState = {
-	authenticatedState: "Unknown",
+	authenticatedState: "Unauthenticated",
 	jwt: "",
 };
 

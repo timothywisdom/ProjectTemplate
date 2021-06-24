@@ -7,7 +7,9 @@ const UserPanel: React.FC = () => {
 		(state: ApplicationState) => state.user.authenticatedState
 	);
 	return (
-		<div>User Authentication Status is currently: {authenticateState}</div>
+		<div id="user-panel">
+			User Authentication Status is currently: {authenticateState}
+		</div>
 	);
 };
 

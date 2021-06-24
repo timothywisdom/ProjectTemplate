@@ -1,9 +1,8 @@
 import React from "react";
-// import "./resources/App.css";
 import { Provider } from "react-redux";
-import configureStore from "../../store";
+import { configureStore } from "../../store";
 import UserPanel from "../UserPanel";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom";
 import Routes from "../../scenes/Routes";
 import Header from "../Header";
 
@@ -11,15 +10,16 @@ const reduxStore = configureStore();
 
 const App = () => {
 	return (
-		<React.StrictMode>
+		<React.StrictMode data-testId="app-test-id">
 			<Provider store={reduxStore}>
-				<Router>
-					<div className="App">
-						<Header />
-						<UserPanel />
-						<Switch>{Routes}</Switch>
-					</div>
-				</Router>
+				<BrowserRouter>
+					<Header />
+					<UserPanel />
+					<Switch>
+						{Routes}
+						<Route render={() => <Redirect to="/home" />} />
+					</Switch>
+				</BrowserRouter>
 			</Provider>
 		</React.StrictMode>
 	);

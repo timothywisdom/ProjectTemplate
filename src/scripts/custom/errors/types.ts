@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redeclare */
 import strListToStrEnum from "../../../functions/strListToStrEnum";
 
 export const ErrorCategory = strListToStrEnum([

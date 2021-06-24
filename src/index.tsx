@@ -3,6 +3,9 @@ import "./index.css";
 import App from "./components/App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./functions/reportWebVitals";
+import recordTTI from "./functions/recordTTI";
+
+recordTTI();
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

@@ -1,4 +1,8 @@
-import { FC } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import useSelector from "../../hooks/useSelector";
+import { setAuthenticatedState } from "../../store/user/userActionCreators";
 import logo from "./resources/logo.svg";
 import {
 	HeaderContainer,
@@ -6,20 +10,80 @@ import {
 	MenuList,
 	MenuListItem,
 	MenuListItmeLink,
+	Navigation,
+	SecondaryMenuList,
 } from "./styles";
+import { useLocation } from "react-router-dom";
 
-const Header: FC = () => {
+const Header: React.FC = () => {
+	const store = useSelector((state) => ({
+		authenticatedState: state.user.authenticatedState,
+	}));
+	const actions = {
+		...bindActionCreators(
+			{
+				setAuthenticatedState: setAuthenticatedState,
+			},
+			useDispatch()
+		),
+	};
+	let location = useLocation();
+
 	return (
 		<HeaderContainer>
 			<Logo src={logo} alt="logo" />
-			<MenuList>
-				<MenuListItem>
-					<MenuListItmeLink to="/home">Home</MenuListItmeLink>
-				</MenuListItem>
-				<MenuListItem>
-					<MenuListItmeLink to="/about">About</MenuListItmeLink>
-				</MenuListItem>
-			</MenuList>
+			<Navigation>
+				<MenuList>
+					<MenuListItem>
+						<MenuListItmeLink
+							to="/home"
+							className={
+								location.pathname === "/home" ? "active" : ""
+							}
+						>
+							Home
+						</MenuListItmeLink>
+					</MenuListItem>
+					<MenuListItem>
+						<MenuListItmeLink
+							to="/about"
+							className={
+								location.pathname === "/about" ? "active" : ""
+							}
+						>
+							About
+						</MenuListItmeLink>
+					</MenuListItem>
+				</MenuList>
+				<SecondaryMenuList>
+					<MenuListItem>
+						{store.authenticatedState === "Unauthenticated" && (
+							<MenuListItmeLink
+								to="/home"
+								onClick={() => {
+									actions.setAuthenticatedState(
+										"Authenticated"
+									);
+								}}
+							>
+								Log In
+							</MenuListItmeLink>
+						)}
+						{store.authenticatedState === "Authenticated" && (
+							<MenuListItmeLink
+								to="/home"
+								onClick={() => {
+									actions.setAuthenticatedState(
+										"Unauthenticated"
+									);
+								}}
+							>
+								Log Out
+							</MenuListItmeLink>
+						)}
+					</MenuListItem>
+				</SecondaryMenuList>
+			</Navigation>
 		</HeaderContainer>
 	);
 };
