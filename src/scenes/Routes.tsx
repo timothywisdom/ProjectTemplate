@@ -1,13 +1,13 @@
 import { Route } from "react-router-dom";
-import About from "./About";
+import Fetch from "./Fetch";
 import Home from "./Home";
 
 const Routes = [
 	<Route path="/home" key="/home">
 		<Home />
 	</Route>,
-	<Route path="/about" key="/about">
-		<About />
+	<Route path="/fetch" key="/fetch">
+		<Fetch />
 	</Route>,
 ];
 

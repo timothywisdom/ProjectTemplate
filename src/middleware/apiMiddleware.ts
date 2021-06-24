@@ -23,7 +23,6 @@ const handleApiAction = async (
 		unloadingActions,
 		successActions,
 		errorActions,
-		pageTrackEvent,
 		...remainingPayload
 	} = action.payload;
 	const requestOptions = remainingPayload as RequestOptions;

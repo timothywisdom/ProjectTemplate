@@ -16,11 +16,11 @@ const fetchRetry = async <TResponse extends Response | undefined = undefined>(
 		attempt: number
 	): Promise<AxiosResponse<TResponse>> => {
 		const axiosRequest = composeRequest(requestOptions, jwt, attempt);
-		console.log(
-			`Fetch Retry Requesting ${requestOptions.url}`,
-			{ attempt },
-			{ requestOptions }
-		);
+		console.log(`Fetch Retry Requesting ${requestOptions.url}`, {
+			attempt,
+			requestOptions,
+			axiosRequest,
+		});
 		try {
 			const response = await axios(axiosRequest);
 			console.log(
@@ -31,11 +31,10 @@ const fetchRetry = async <TResponse extends Response | undefined = undefined>(
 			);
 			return response;
 		} catch (error) {
-			console.log(
-				`Fetch Retry Errored on ${requestOptions.url}`,
-				{ attempt },
-				{ error }
-			);
+			console.log(`Fetch Retry Errored on ${requestOptions.url}`, {
+				attempt,
+				error,
+			});
 			if (
 				attempt < FETCH_RETRY_ATTEMPTS &&
 				requestOptions.url.indexOf("ClientSideError") === -1

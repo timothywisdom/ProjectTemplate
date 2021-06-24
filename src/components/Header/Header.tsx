@@ -1,6 +1,4 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
 import useSelector from "../../hooks/useSelector";
 import { setAuthenticatedState } from "../../store/user/userActionCreators";
 import logo from "./resources/logo.svg";
@@ -14,19 +12,13 @@ import {
 	SecondaryMenuList,
 } from "./styles";
 import { useLocation } from "react-router-dom";
+import useActions from "../../hooks/useActions";
 
 const Header: React.FC = () => {
 	const store = useSelector((state) => ({
 		authenticatedState: state.user.authenticatedState,
 	}));
-	const actions = {
-		...bindActionCreators(
-			{
-				setAuthenticatedState: setAuthenticatedState,
-			},
-			useDispatch()
-		),
-	};
+	const actions = useActions({ setAuthenticatedState });
 	let location = useLocation();
 
 	return (
@@ -46,12 +38,12 @@ const Header: React.FC = () => {
 					</MenuListItem>
 					<MenuListItem>
 						<MenuListItmeLink
-							to="/about"
+							to="/fetch"
 							className={
-								location.pathname === "/about" ? "active" : ""
+								location.pathname === "/fetch" ? "active" : ""
 							}
 						>
-							About
+							Fetch
 						</MenuListItmeLink>
 					</MenuListItem>
 				</MenuList>

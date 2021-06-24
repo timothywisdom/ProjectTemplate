@@ -8,7 +8,7 @@ const composeRequest = (
 	jwt: string,
 	attempt: number
 ): AxiosRequestConfig => {
-	const { url, method, body, contentType } = requestOptions;
+	const { url, method, body, contentType, withCredentials } = requestOptions;
 
 	const requestInit: AxiosRequestConfig = {
 		url,
@@ -21,7 +21,8 @@ const composeRequest = (
 				: attempt === 2
 				? 30000
 				: 60000, // ms (0 == no timeout)
-		withCredentials: true,
+		withCredentials:
+			typeof withCredentials !== "undefined" ? withCredentials : true,
 		maxRedirects: 5,
 		maxContentLength: 4096000, // the max size of the http response content in bytes allowed
 		responseType: "json",
@@ -34,10 +35,12 @@ const composeRequest = (
 	};
 
 	// Set Authorization Header
-	requestInit.headers = {
-		...requestInit.headers,
-		Authorization: `bearer ${jwt}`,
-	};
+	if (jwt) {
+		requestInit.headers = {
+			...requestInit.headers,
+			Authorization: `bearer ${jwt}`,
+		};
+	}
 
 	// Check if request has a payload
 	if (
@@ -83,6 +86,8 @@ const composeRequest = (
 		}
 		requestInit.data = body ? JSON.stringify(body) : undefined;
 	}
+
+	console.log("Request Compose", { requestInit });
 
 	return requestInit;
 };
